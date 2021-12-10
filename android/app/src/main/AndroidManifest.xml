@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.misiontic_template">
-  <!-- TODO Establece los permisos necesarios y agrega un Intent para hacer el manejo del url de Maps -->
-  <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <!-- TODO Establece los permisos necesarios y agrega un Intent para hacer el manejo del url de Maps -->
+  <!-- 
   <queries>
     <intent>
       <action android:name="android.intent.action.VIEW" />

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:misiontic_template/domain/use_case/controllers/location.dart';
@@ -39,6 +41,18 @@ class _State extends State<GpsScreen> {
                 onPressed: () async {
                   // TODO Verifica que tienes los permisos y luego obten la ubicacion
                   // Almacenala y tambien muestra un snackbar con los datos
+                  locationController.location.value = null;
+                  log(permissionsController.locationGranted.toString());
+                  if (permissionsController.locationGranted) {
+                    _updatePosition();
+                  } else {
+                    permissionsController.manager.requestGpsPermission().then( (status) {
+                        if (status) {
+                          _updatePosition();
+                        }
+                      }
+                      );
+                  }
                 },
                 child: const Text('Obtener Ubicacion'),
               ),
@@ -55,6 +69,9 @@ class _State extends State<GpsScreen> {
                       ? () async {
                           // TODO con los datos de ubicacion almacenados construye un enlace a Google Maps
                           // y lanzalo
+                          final location = locationController.location.value;
+                          final url = "https://www.google.es/maps?q=${location?.latitude},${location?.longitude}";
+                          await launch(url);
                         }
                       : null,
                   child: const Text('Abrir Maps'),
@@ -66,4 +83,12 @@ class _State extends State<GpsScreen> {
       ],
     );
   }
+
+  _updatePosition() async {
+    final position = await manager.getCurrentLocation();
+    locationController.location.value = position;
+    Get.snackbar('La ubicación actual es: ', 
+    'Latitud: ${position.latitude} - Longitud: ${position.longitude}');
+  }
+
 }
